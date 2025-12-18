@@ -4,20 +4,22 @@ GET /api/favorites/[user_id] - 获取收藏
 POST /api/favorites - 添加收藏
 DELETE /api/favorites/[user_id]/[movie_id] - 删除收藏
 """
-from flask import Flask, request, jsonify
 from psycopg2.extras import RealDictCursor
+import json
 import sys
 import os
 sys.path.append(os.path.dirname(__file__))
-from _db import get_db
-
-app = Flask(__name__)
+from _db import get_db, json_response
 
 def handler(request):
     """处理收藏列表请求"""
+    # 处理 CORS 预检请求
+    if request.method == 'OPTIONS':
+        return json_response('', 200)
+    
     try:
-        path = request.path
-        method = request.method
+        path = request.path if hasattr(request, 'path') else request.get('path', '')
+        method = request.method if hasattr(request, 'method') else request.get('method', 'GET')
         
         if method == 'GET':
             # GET /api/favorites/[user_id]
@@ -36,13 +38,13 @@ def handler(request):
             return remove_favorite(user_id, movie_id)
         
         else:
-            return jsonify({'success': False, 'message': 'Method not allowed'}), 405
+            return json_response(json.dumps({'success': False, 'message': 'Method not allowed'}), 405)
             
     except Exception as e:
-        return jsonify({
+        return json_response(json.dumps({
             'success': False,
             'message': f'错误: {str(e)}'
-        }), 500
+        }), 500)
 
 def get_favorites(user_id):
     """获取用户收藏列表"""
@@ -60,20 +62,27 @@ def get_favorites(user_id):
     cursor.close()
     conn.close()
     
-    return jsonify({
+    return json_response(json.dumps({
         'success': True,
         'favorites': favorites
-    }), 200
+    }, default=str), 200)
 
 def add_favorite(request):
     """添加到收藏列表"""
-    data = request.get_json()
+    # 解析请求体
+    if hasattr(request, 'get_json'):
+        data = request.get_json()
+    else:
+        body = request.body if hasattr(request, 'body') else request.get('body', '{}')
+        if isinstance(body, bytes):
+            body = body.decode('utf-8')
+        data = json.loads(body) if isinstance(body, str) else body
     
     if not data or not data.get('user_id') or not data.get('movie_id'):
-        return jsonify({
+        return json_response(json.dumps({
             'success': False,
             'message': '请提供user_id和movie_id'
-        }), 400
+        }), 400)
     
     conn = get_db()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -87,10 +96,10 @@ def add_favorite(request):
     if cursor.fetchone():
         cursor.close()
         conn.close()
-        return jsonify({
+        return json_response(json.dumps({
             'success': False,
             'message': '该电影已在收藏列表中'
-        }), 400
+        }), 400)
     
     # 插入新记录
     cursor.execute('''
@@ -111,11 +120,11 @@ def add_favorite(request):
     cursor.close()
     conn.close()
     
-    return jsonify({
+    return json_response(json.dumps({
         'success': True,
         'message': '已添加到收藏列表',
         'id': favorite_id
-    }), 201
+    }), 201)
 
 def remove_favorite(user_id, movie_id):
     """从收藏列表删除"""
@@ -130,8 +139,8 @@ def remove_favorite(user_id, movie_id):
     cursor.close()
     conn.close()
     
-    return jsonify({
+    return json_response(json.dumps({
         'success': True,
         'message': '已从收藏列表中移除'
-    }), 200
+    }), 200)
 

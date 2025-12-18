@@ -2,22 +2,30 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/**/*.py",
+      "src": "api/*.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src": "/api/login",
+      "dest": "/api/login.py"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "src": "/api/register",
+      "dest": "/api/register.py"
+    },
+    {
+      "src": "/api/favorites(.*)",
+      "dest": "/api/favorites.py"
+    },
+    {
+      "src": "/api/history(.*)",
+      "dest": "/api/history.py"
     }
   ],
   "env": {
-    "DATABASE_URL": "postgresql://postgres.jihfdpkcnuvkmarfkgoy:123456@aws-0-us-west-2.pooler.supabase.com:6543/postgres"
+    "DATABASE_URL": "@database_url"
   }
 }
 

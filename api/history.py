@@ -4,21 +4,23 @@ GET /api/history/[user_id] - 获取历史
 POST /api/history - 添加历史
 DELETE /api/history/[user_id] - 清除历史
 """
-from flask import Flask, request, jsonify
 from psycopg2.extras import RealDictCursor
+import json
 import sys
 import os
 sys.path.append(os.path.dirname(__file__))
-from _db import get_db
-
-app = Flask(__name__)
+from _db import get_db, json_response
 
 def handler(request):
     """处理历史记录请求"""
+    # 处理 CORS 预检请求
+    if request.method == 'OPTIONS':
+        return json_response('', 200)
+    
     try:
         # 解析路径获取user_id
-        path = request.path
-        method = request.method
+        path = request.path if hasattr(request, 'path') else request.get('path', '')
+        method = request.method if hasattr(request, 'method') else request.get('method', 'GET')
         
         if method == 'GET':
             # GET /api/history/[user_id]
@@ -35,13 +37,13 @@ def handler(request):
             return clear_history(user_id)
         
         else:
-            return jsonify({'success': False, 'message': 'Method not allowed'}), 405
+            return json_response(json.dumps({'success': False, 'message': 'Method not allowed'}), 405)
             
     except Exception as e:
-        return jsonify({
+        return json_response(json.dumps({
             'success': False,
             'message': f'错误: {str(e)}'
-        }), 500
+        }), 500)
 
 def get_history(user_id):
     """获取用户观看历史"""
@@ -66,20 +68,27 @@ def get_history(user_id):
     # 按观看时间重新排序
     history_sorted = sorted(history, key=lambda x: x['watched_at'], reverse=True)
     
-    return jsonify({
+    return json_response(json.dumps({
         'success': True,
         'history': history_sorted
-    }), 200
+    }, default=str), 200)
 
 def add_history(request):
     """添加观看历史"""
-    data = request.get_json()
+    # 解析请求体
+    if hasattr(request, 'get_json'):
+        data = request.get_json()
+    else:
+        body = request.body if hasattr(request, 'body') else request.get('body', '{}')
+        if isinstance(body, bytes):
+            body = body.decode('utf-8')
+        data = json.loads(body) if isinstance(body, str) else body
     
     if not data or not data.get('user_id') or not data.get('movie_id'):
-        return jsonify({
+        return json_response(json.dumps({
             'success': False,
             'message': '请提供user_id和movie_id'
-        }), 400
+        }), 400)
     
     conn = get_db()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -105,11 +114,11 @@ def add_history(request):
     cursor.close()
     conn.close()
     
-    return jsonify({
+    return json_response(json.dumps({
         'success': True,
         'message': '已添加到观看历史',
         'id': history_id
-    }), 201
+    }), 201)
 
 def clear_history(user_id):
     """清除用户观看历史"""
@@ -121,8 +130,8 @@ def clear_history(user_id):
     cursor.close()
     conn.close()
     
-    return jsonify({
+    return json_response(json.dumps({
         'success': True,
         'message': '已清除观看历史'
-    }), 200
+    }), 200)
 

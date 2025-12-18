@@ -2,27 +2,35 @@
 用户登录 API
 POST /api/login
 """
-from flask import Flask, request, jsonify
 from werkzeug.security import check_password_hash
 from psycopg2.extras import RealDictCursor
+import json
 import sys
 import os
 sys.path.append(os.path.dirname(__file__))
-from _db import get_db
+from _db import get_db, json_response
 
-app = Flask(__name__)
-
-@app.route('/api/login', methods=['POST'])
 def handler(request):
     """处理用户登录请求"""
+    # 处理 CORS 预检请求
+    if request.method == 'OPTIONS':
+        return json_response('', 200)
+    
     try:
-        data = request.get_json()
+        # 解析请求体
+        if hasattr(request, 'get_json'):
+            data = request.get_json()
+        else:
+            body = request.body if hasattr(request, 'body') else request.get('body', '{}')
+            if isinstance(body, bytes):
+                body = body.decode('utf-8')
+            data = json.loads(body) if isinstance(body, str) else body
         
         if not data or not data.get('username') or not data.get('password'):
-            return jsonify({
+            return json_response(json.dumps({
                 'success': False,
                 'message': '请提供用户名和密码'
-            }), 400
+            }), 400)
         
         username = data['username'].strip()
         password = data['password'].strip()
@@ -40,33 +48,33 @@ def handler(request):
         if not user:
             cursor.close()
             conn.close()
-            return jsonify({
+            return json_response(json.dumps({
                 'success': False,
                 'message': '用户不存在'
-            }), 404
+            }), 404)
         
         # 验证密码
         if not check_password_hash(user['password'], password):
             cursor.close()
             conn.close()
-            return jsonify({
+            return json_response(json.dumps({
                 'success': False,
                 'message': '密码错误'
-            }), 401
+            }), 401)
         
         cursor.close()
         conn.close()
         
-        return jsonify({
+        return json_response(json.dumps({
             'success': True,
             'message': '登录成功',
             'user_id': user['id'],
             'username': user['username']
-        }), 200
+        }), 200)
         
     except Exception as e:
-        return jsonify({
+        return json_response(json.dumps({
             'success': False,
             'message': f'错误: {str(e)}'
-        }), 500
+        }), 500)
 
