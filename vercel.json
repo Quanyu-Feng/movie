@@ -1,27 +1,12 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/*.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/login",
-      "dest": "/api/login.py"
+      "source": "/api/favorites/(.*)",
+      "destination": "/api/favorites"
     },
     {
-      "src": "/api/register",
-      "dest": "/api/register.py"
-    },
-    {
-      "src": "/api/favorites(.*)",
-      "dest": "/api/favorites.py"
-    },
-    {
-      "src": "/api/history(.*)",
-      "dest": "/api/history.py"
+      "source": "/api/history/(.*)",
+      "destination": "/api/history"
     }
   ]
 }
