@@ -200,9 +200,9 @@ fetchDataFromServer(
               video_title: name
             })
           });
-          console.log('✅ 观看历史已记录:', name);
+          console.log('✅ Added to watch history.', name);
         } catch (error) {
-          console.error('❌ 记录观看历史失败:', error);
+          console.error('❌ Failed to add to watch history:', error);
           hasRecorded = false; // 失败时重置，允许重试
         }
       };
@@ -229,24 +229,24 @@ fetchDataFromServer(
             },
             events: {
               'onReady': function(event) {
-                console.log('🎬 YouTube播放器已准备:', name);
+                console.log('🎬 YouTube player is ready:', name);
               },
               'onStateChange': function(event) {
                 // YT.PlayerState.PLAYING = 1 (视频开始播放)
                 if (event.data === YT.PlayerState.PLAYING) {
-                  console.log('▶️ 视频开始播放:', name);
+                  console.log('▶️ Video now playing:', name);
                   recordHistory();
                 }
               },
               'onError': function(event) {
-                console.error('❌ YouTube播放器错误:', event.data);
+                console.error('❌ YouTube player error:', event.data);
               }
             }
           });
           
           players.push(player);
         } catch (error) {
-          console.error('创建YouTube播放器失败:', error);
+          console.error('Unable to create YouTube player:', error);
         }
       };
 
@@ -263,7 +263,7 @@ fetchDataFromServer(
     const getUserId = () => {
       const userId = localStorage.getItem('userId');
       if (!userId) {
-        alert('请先登录');
+        alert('This is a members-only feature. Redirecting to login page.');
         window.location.href = './login.html';
         return null;
       }
@@ -282,7 +282,7 @@ fetchDataFromServer(
           return data.favorites.some(m => m.movie_id === movie.id);
         }
       } catch (error) {
-        console.error('检查favorites错误:', error);
+        console.error('Error occurred during checking favorite list:', error);
       }
       return false;
     };
@@ -328,13 +328,13 @@ fetchDataFromServer(
           addToFavoriteBtn.textContent = '✓ In Favorites';
           addToFavoriteBtn.style.backgroundColor = 'var(--banner-background)';
           addToFavoriteBtn.disabled = true;
-          alert('已添加到收藏列表！');
+          alert('Added to favorite list!');
         } else {
-          alert(data.message || '添加失败');
+          alert(data.message || 'Unable to add to favorites. Please try again.');
         }
       } catch (error) {
-        console.error('添加到favorites错误:', error);
-        alert('无法连接到服务器');
+        console.error('Error occurred during adding to favorites:', error);
+        alert('Unable to connect to the server.');
       }
     });
 
