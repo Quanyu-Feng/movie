@@ -263,7 +263,8 @@ fetchDataFromServer(
     const getUserId = () => {
       const userId = localStorage.getItem('userId');
       if (!userId) {
-        alert('This is a members-only feature. Redirecting to login page.');
+        alert('This is a members-only area. Redirecting to login page.');
+        localStorage.setItem('loginRedirect', window.location.href);
         window.location.href = './login.html';
         return null;
       }

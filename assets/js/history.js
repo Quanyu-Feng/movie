@@ -22,6 +22,7 @@ const checkLogin = function () {
   const userId = localStorage.getItem('userId');
   if (!isLoggedIn || !userId) {
     alert('This is a members-only area. Redirecting to login page.');
+    localStorage.setItem('loginRedirect', window.location.href);
     window.location.href = './login.html';
     return null;
   }
