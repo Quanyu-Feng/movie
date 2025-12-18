@@ -12,7 +12,7 @@ from _db import get_db, json_response
 
 def handler(request):
     """处理用户登录请求"""
-    # 处理 CORS 预检请求
+    # 处理 CORS 预检请求 
     if request.method == 'OPTIONS':
         return json_response('', 200)
     
@@ -34,6 +34,7 @@ def handler(request):
         
         username = data['username'].strip()
         password = data['password'].strip()
+        
         
         conn = get_db()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
