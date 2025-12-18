@@ -29,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
             # 从路径中提取 user_id
             path_parts = self.path.strip('/').split('/')
             if len(path_parts) < 3:
-                self.send_json_response({'success': False, 'message': '缺少user_id'}, 400)
+                self.send_json_response({'success': False, 'message': 'Please provide user_id.'}, 400)
                 return
             
             user_id = int(path_parts[-1])
@@ -51,7 +51,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_json_response({'success': True, 'favorites': favorites}, 200)
             
         except Exception as e:
-            self.send_json_response({'success': False, 'message': f'错误: {str(e)}'}, 500)
+            self.send_json_response({'success': False, 'message': f'Error: {str(e)}'}, 500)
     
     def do_POST(self):
         """添加收藏"""
@@ -61,7 +61,7 @@ class handler(BaseHTTPRequestHandler):
             data = json.loads(body) if body else {}
             
             if not data.get('user_id') or not data.get('movie_id'):
-                self.send_json_response({'success': False, 'message': '请提供user_id和movie_id'}, 400)
+                self.send_json_response({'success': False, 'message': 'Please provide both user_id and movie_id.'}, 400)
                 return
             
             conn = get_db()
@@ -76,7 +76,7 @@ class handler(BaseHTTPRequestHandler):
             if cursor.fetchone():
                 cursor.close()
                 conn.close()
-                self.send_json_response({'success': False, 'message': '该电影已在收藏列表中'}, 400)
+                self.send_json_response({'success': False, 'message': 'The movie is already in the favorites list!'}, 400)
                 return
             
             # 插入新记录
@@ -98,10 +98,10 @@ class handler(BaseHTTPRequestHandler):
             cursor.close()
             conn.close()
             
-            self.send_json_response({'success': True, 'message': '已添加到收藏列表', 'id': favorite_id}, 201)
+            self.send_json_response({'success': True, 'message': 'Added to favorites successfully.', 'id': favorite_id}, 201)
             
         except Exception as e:
-            self.send_json_response({'success': False, 'message': f'错误: {str(e)}'}, 500)
+            self.send_json_response({'success': False, 'message': f'Error: {str(e)}'}, 500)
     
     def do_DELETE(self):
         """删除收藏"""
@@ -109,7 +109,7 @@ class handler(BaseHTTPRequestHandler):
             # 从路径中提取 user_id 和 movie_id
             path_parts = self.path.strip('/').split('/')
             if len(path_parts) < 4:
-                self.send_json_response({'success': False, 'message': '缺少user_id或movie_id'}, 400)
+                self.send_json_response({'success': False, 'message': 'Please provide user_id and movie_id.'}, 400)
                 return
             
             user_id = int(path_parts[-2])
@@ -126,10 +126,10 @@ class handler(BaseHTTPRequestHandler):
             cursor.close()
             conn.close()
             
-            self.send_json_response({'success': True, 'message': '已从收藏列表中移除'}, 200)
+            self.send_json_response({'success': True, 'message': 'Removed from favorite list successfully.'}, 200)
             
         except Exception as e:
-            self.send_json_response({'success': False, 'message': f'错误: {str(e)}'}, 500)
+            self.send_json_response({'success': False, 'message': f'Error: {str(e)}'}, 500)
     
     def send_json_response(self, data, status=200):
         """发送 JSON 响应"""

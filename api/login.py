@@ -32,7 +32,7 @@ class handler(BaseHTTPRequestHandler):
             if not data.get('username') or not data.get('password'):
                 self.send_json_response({
                     'success': False,
-                    'message': '请提供用户名和密码'
+                    'message': 'Please provide both username and password.'
                 }, 400)
                 return
             
@@ -54,7 +54,7 @@ class handler(BaseHTTPRequestHandler):
                 conn.close()
                 self.send_json_response({
                     'success': False,
-                    'message': '用户不存在'
+                    'message': 'Sorry, that username is not associated with an account. Would you like to create a new account?'
                 }, 404)
                 return
             
@@ -64,7 +64,7 @@ class handler(BaseHTTPRequestHandler):
                 conn.close()
                 self.send_json_response({
                     'success': False,
-                    'message': '密码错误'
+                    'message': 'Incorrect password. Please try again.'
                 }, 401)
                 return
             
@@ -73,7 +73,7 @@ class handler(BaseHTTPRequestHandler):
             
             self.send_json_response({
                 'success': True,
-                'message': '登录成功',
+                'message': f"Welcome back, {username}!",
                 'user_id': user['id'],
                 'username': user['username']
             }, 200)
@@ -81,7 +81,7 @@ class handler(BaseHTTPRequestHandler):
         except Exception as e:
             self.send_json_response({
                 'success': False,
-                'message': f'错误: {str(e)}'
+                'message': f'Error: {str(e)}'
             }, 500)
     
     def send_json_response(self, data, status=200):

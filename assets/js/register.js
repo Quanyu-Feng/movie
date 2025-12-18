@@ -14,33 +14,33 @@ const tryRegister = async function (event) {
 
 	// 基本验证
 	if (!username.value.trim()) {
-		alert("请输入用户名");
+		alert("Please enter the username.");
 		return;
 	}
 
 	if (username.value.trim().length < 3) {
-		alert("用户名至少需要3个字符");
+		alert("Username must be at least 3 characters long.");
 		return;
 	}
 
 	if (!password.value.trim()) {
-		alert("请输入密码");
+		alert("Please enter the password.");
 		return;
 	}
 
 	if (password.value.trim().length < 6) {
-		alert("密码至少需要6个字符");
+		alert("Password must be at least 6 characters long.");
 		return;
 	}
 
 	if (password.value !== confirmPassword.value) {
-		alert("两次输入的密码不一致");
+		alert("The two password fields did not match.");
 		return;
 	}
 
 	// 禁用按钮防止重复提交
 	registerButton.disabled = true;
-	registerButton.textContent = '注册中...';
+	registerButton.textContent = 'Registering your account. Please wait...';
 
 	try {
 		const response = await fetch(`${API_BASE_URL}/api/register`, {
@@ -58,20 +58,20 @@ const tryRegister = async function (event) {
 
 		if (data.success) {
 			// 注册成功
-			alert("注册成功！现在将跳转到登录页面");
+			alert(`Welcome aboard, ${username.value.trim()}! You will now be redirected to the previous page.`);
 			form.classList.add('was-validated');
 			
 			// 跳转到登录页面
 			window.location.href = './login.html';
 		} else {
 			// 注册失败
-			alert(data.message || "注册失败，请重试");
+			alert(data.message || "Registration failed, please try again.");
 			registerButton.disabled = false;
 			registerButton.textContent = 'Register';
 		}
 	} catch (error) {
-		console.error('注册错误:', error);
-		alert("无法连接到服务器，请确保后端服务正在运行");
+		console.error('An error occured during registration:', error);
+		alert("Unable to connect the authentication server. Please try again later.");
 		registerButton.disabled = false;
 		registerButton.textContent = 'Register';
 	}

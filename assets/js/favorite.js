@@ -20,7 +20,7 @@ const checkLogin = function () {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   const userId = localStorage.getItem('userId');
   if (!isLoggedIn || !userId) {
-    alert('请先登录');
+    alert('This is a members-only area. Redirecting to login page.');
     window.location.href = './login.html';
     return null;
   }
@@ -36,11 +36,11 @@ const getFavorites = async function (userId) {
     if (data.success) {
       return data.favorites;
     } else {
-      console.error('获取favorites失败:', data.message);
+      console.error('Unable to retrieve the favorite list:', data.message);
       return [];
     }
   } catch (error) {
-    console.error('获取favorites错误:', error);
+    console.error('An error occurred during fetching the favorite list:', error);
     return [];
   }
 }
@@ -109,13 +109,13 @@ const removeFromFavorites = async function (userId, movieId) {
     const data = await response.json();
     
     if (data.success) {
-      console.log('已从favorites中移除');
+      console.log('Removed from favorites successfully.');
     } else {
-      alert(data.message || '移除失败');
+      alert(data.message || 'Unable to remove.');
     }
   } catch (error) {
-    console.error('移除错误:', error);
-    alert('无法连接到服务器');
+    console.error('An error occurred during removing from favorites:', error);
+    alert('Unable to connect to the server.');
   }
 }
 

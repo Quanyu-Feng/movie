@@ -21,7 +21,7 @@ const checkLogin = function () {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   const userId = localStorage.getItem('userId');
   if (!isLoggedIn || !userId) {
-    alert('请先登录');
+    alert('This is a members-only area. Redirecting to login page.');
     window.location.href = './login.html';
     return null;
   }
@@ -37,11 +37,11 @@ const getHistory = async function (userId) {
     if (data.success) {
       return data.history;
     } else {
-      console.error('获取history失败:', data.message);
+      console.error('Unable to fetch watch history:', data.message);
       return [];
     }
   } catch (error) {
-    console.error('获取history错误:', error);
+    console.error('An error occurred during fetching the watch history:', error);
     return [];
   }
 }
@@ -131,7 +131,7 @@ const createHistoryCard = function (record) {
 
 // 清除所有历史记录
 const clearHistory = async function (userId) {
-  if (!confirm('确定要清除所有观看历史吗？此操作不可恢复。')) {
+  if (!confirm('Your watch history will be permanently delted. This action cannot be undone. Are you sure?')) {
     return;
   }
   
@@ -147,13 +147,13 @@ const clearHistory = async function (userId) {
       emptyMessage.style.display = 'block';
       historyGrid.style.display = 'none';
       clearHistoryBtn.style.display = 'none';
-      alert('历史记录已清除');
+      alert('History cleared successfully.');
     } else {
-      alert(data.message || '清除失败');
+      alert(data.message || 'Unable to clear history.');
     }
   } catch (error) {
-    console.error('清除历史错误:', error);
-    alert('无法连接到服务器');
+    console.error('An error occurred during clearing the watch history:', error);
+    alert('Unable to connect to the server');
   }
 }
 

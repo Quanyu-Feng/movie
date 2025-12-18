@@ -32,7 +32,7 @@ class handler(BaseHTTPRequestHandler):
             if not data.get('username') or not data.get('password'):
                 self.send_json_response({
                     'success': False,
-                    'message': '请提供用户名和密码'
+                    'message': 'Please provide both username and password.'
                 }, 400)
                 return
             
@@ -42,14 +42,14 @@ class handler(BaseHTTPRequestHandler):
             if len(username) < 3:
                 self.send_json_response({
                     'success': False,
-                    'message': '用户名至少需要3个字符'
+                    'message': 'Username must be at least 3 characters long.'
                 }, 400)
                 return
             
             if len(password) < 6:
                 self.send_json_response({
                     'success': False,
-                    'message': '密码至少需要6个字符'
+                    'message': 'Password must be at least 6 characters long.'
                 }, 400)
                 return
             
@@ -63,7 +63,7 @@ class handler(BaseHTTPRequestHandler):
                 conn.close()
                 self.send_json_response({
                     'success': False,
-                    'message': '用户名已存在'
+                    'message': 'An account with that username already exists. Please choose a different username.'
                 }, 400)
                 return
             
@@ -80,7 +80,7 @@ class handler(BaseHTTPRequestHandler):
             
             self.send_json_response({
                 'success': True,
-                'message': '注册成功',
+                'message': f"Welcome aboard, {username}!",
                 'user_id': user_id,
                 'username': username
             }, 201)
@@ -88,7 +88,7 @@ class handler(BaseHTTPRequestHandler):
         except Exception as e:
             self.send_json_response({
                 'success': False,
-                'message': f'错误: {str(e)}'
+                'message': f'Error: {str(e)}'
             }, 500)
     
     def send_json_response(self, data, status=200):
