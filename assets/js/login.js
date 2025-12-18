@@ -13,13 +13,13 @@ const tryLogin = async function (event) {
 
 	// 基本验证
 	if (!username.value.trim() || !password.value.trim()) {
-		alert("请输入用户名和密码");
+		alert("Please enter both username and password.");
 		return;
 	}
 
 	// 禁用按钮防止重复提交
 	loginButton.disabled = true;
-	loginButton.textContent = '登录中...';
+	loginButton.textContent = 'Signing in... Please wait.';
 
 	try {
 		const response = await fetch(`${API_BASE_URL}/api/login`, {
@@ -37,7 +37,7 @@ const tryLogin = async function (event) {
 
 		if (data.success) {
 			// 登录成功
-			alert("登录成功！");
+			alert(`Login successful! ${data.username}, welcome back!`);
 			form.classList.add('was-validated');
 			
 			// 保存登录状态和用户信息
@@ -51,13 +51,13 @@ const tryLogin = async function (event) {
 			window.location.href = redirectUrl;
 		} else {
 			// 登录失败
-			alert(data.message || "登录失败，请重试");
+			alert(data.message || "Incorrect username or password. Note that both fields are case-sensitive.");
 			loginButton.disabled = false;
 			loginButton.textContent = 'Login';
 		}
 	} catch (error) {
-		console.error('登录错误:', error);
-		alert("无法连接到服务器，请确保后端服务正在运行");
+		console.error('Error:', error);
+		alert("Unable to connect the authentication server. Please try again later.");
 		loginButton.disabled = false;
 		loginButton.textContent = 'Login';
 	}

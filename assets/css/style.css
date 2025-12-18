@@ -919,9 +919,19 @@ body {
   color: var(--on-surface);
   
   padding: 24px 20px 48px;
-  height: 400px;
+  min-height: 400px;
   overflow-y: overlay;
   z-index: 1;
+}
+
+.login-back button{
+  
+  background-color: transparent;
+  border: none;
+  color: var(--on-surface);
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 #loginSlogan  {
