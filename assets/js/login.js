@@ -63,6 +63,12 @@ const tryLogin = async function (event) {
 	}
 }
 
+const goBack = function () {
+	const redirectUrl = localStorage.getItem('loginRedirect') || './index.html';
+	localStorage.removeItem('loginRedirect');
+	window.location.href = redirectUrl;
+}
+
 const loginButton = document.querySelector('button[type="submit"]');
 loginButton.addEventListener('click', tryLogin);
 
