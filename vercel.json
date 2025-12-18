@@ -23,9 +23,6 @@
       "src": "/api/history(.*)",
       "dest": "/api/history.py"
     }
-  ],
-  "env": {
-    "DATABASE_URL": "@database_url"
-  }
+  ]
 }
 

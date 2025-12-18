@@ -1,2 +1,5 @@
-# API package
+"""
+myMovie API Package
+Vercel Serverless Functions
+"""
 
