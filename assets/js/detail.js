@@ -184,7 +184,7 @@ fetchDataFromServer(
         hasRecorded = true;
         
         try {
-          await fetch('http://localhost:5000/api/history', {
+          await fetch('/api/history', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -257,7 +257,7 @@ fetchDataFromServer(
     pageContent.appendChild(movieDetail);
 
     // API基础URL
-    const API_BASE_URL = 'http://localhost:5000';
+    const API_BASE_URL = '';
     
     // 获取用户ID
     const getUserId = () => {

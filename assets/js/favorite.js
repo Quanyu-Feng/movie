@@ -10,7 +10,7 @@ import { showUsername } from "./login-display.js";
 const pageContent = document.querySelector("[page-content]");
 const favoritesGrid = document.getElementById("favorites-grid");
 const emptyMessage = document.getElementById("empty-message");
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = '';
 
 generateSidebar();
 showUsername();

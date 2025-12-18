@@ -11,7 +11,7 @@ const pageContent = document.querySelector("[page-content]");
 const historyGrid = document.getElementById("history-grid");
 const emptyMessage = document.getElementById("empty-message");
 const clearHistoryBtn = document.getElementById("clear-history-btn");
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = '';
 
 generateSidebar();
 showUsername();
