@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Favorites - myMovie Super</title>
+  <meta name="title" content="myMovie Super - Favorites" />
+  <meta name="description" content="Your favorite movies on myMovie Super!" />
+  <link rel="icon" href="./assets/images/myMovie logo.png" type="image/svg+xml" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <script src="./assets/js/global.js" defer></script>
+  <script src="./assets/js/favorite.js" type="module"></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <a href="./index.html" class="logo">
+      <img src="./assets/images/myMovieBanner.png" width="140" height="32" alt="homepage" />
+    </a>
+    <h2>  
+      All movies at one site - myMovie Super!
+    </h2>
+    <div class="search-box" search-box>
+      <div class="search-wrapper" search-wrapper>
+        <input type="text" name="search" placeholder="Search movies here" class="search-field"
+          aria-label="search movies" autocomplete="off" search-field />
+
+        <img src="./assets/images/search.png" width="24" height="24" alt="search" class="leading-icon" />
+      </div>
+
+      <button class="search-btn" search-toggler>
+        <img src="./assets/images/close.png" width="24" height="24" alt="close search box" />
+      </button>
+    </div>
+
+    <button class="search-btn" search-toggler menu-close>
+      <img src="./assets/images/search.png" width="24" height="24" alt="open search box" />
+    </button>
+
+    <button class="menu-btn" menu-btn menu-toggler>
+      <img src="./assets/images/menu.png" class="menu" width="24" height="24" alt="open menu" />
+      <img src="./assets/images/menu-close.png" width="24" height="24" alt="close menu" class="close" />
+    </button>
+
+    <a href="./login.html">
+    <button class="btn btn-login" btn-login onclick="toLogin()">
+      Login
+    </button>
+    </a>
+    
+    <!-- User Panel with Dropdown -->
+    <div class="user-panel">
+      <div class="user-button">
+        <div class="user-avatar">U</div>
+        <span class="user-name">User</span>
+        <div class="dropdown-arrow"></div>
+      </div>
+      <div class="user-dropdown">
+        <div class="dropdown-item" id="goto-history">
+          <span>📺 History</span>
+        </div>
+        <div class="dropdown-item" id="goto-favorite">
+          <span>⭐ Favorites</span>
+        </div>
+        <div class="dropdown-item logout" id="logout-btn">
+          <span>🚪 Logout</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sidebar -->
+    <nav class="sidebar" sidebar></nav>
+
+    <div class="overlay" overlay menu-toggler></div>
+
+    <article class="container" page-content>
+      <!-- Favorites Content -->
+      <div class="genre-list">
+        <div class="title-wrapper">
+          <h1 class="heading">My Favorites</h1>
+          <p class="title-large">Movies you love</p>
+        </div>
+
+        <div class="grid-list" id="favorites-grid">
+          <!-- Movie cards will be dynamically inserted here -->
+        </div>
+
+        <div id="empty-message" style="display: none; text-align: center; padding: 40px;">
+          <h2 class="title">Your favorites list is empty</h2>
+          <p style="color: var(--text-color); margin-top: 16px;">Start adding movies you love!</p>
+          <a href="./index.html">
+            <button class="btn" style="background-color: var(--primary); margin-top: 24px;">
+              Browse Movies
+            </button>
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+</body>
+
+</html>
+

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Muhamad Nauval Azhar, editted for COMP5322 project">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="description" content="login page of myMovieSuper, based on Bootstrap 5">
+	<link rel="icon" href="./assets/images/myMovie logo.png" type="image/svg+xml" />
+	<title>myMovieSuper: Login Page</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<link rel="stylesheet" href="./assets/css/style.css" /> 
+	<script src="./assets/js/login.js" defer></script>
+</head>
+
+<body class = "login-body">
+	<section class="h-100">
+		<div class="container h-100 login-body">
+			<div class="row justify-content-sm-center h-100">
+				<div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+					<div class="text-center my-5">
+						<a href="./index.html" class="">
+						<img src="./assets/images/myMovieLogin.png" alt="logo" width="100%">
+						</a>
+					</div>
+					<div class="card shadow-lg">
+						<div class="card-body p-5 login-div">
+							<h1 class="fs-1 fw-bold mb-4" id="loginSlogan">Login to myMovie - <br> Watch, Review, Connect with Fellow Film Lovers.</h1>
+							
+							<form method="POST" class="needs-validation" novalidate="" autocomplete="off">
+								<div class="mb-3">
+									<label class="mb-2" for="username">Username</label>
+									<input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+
+								</div>
+
+								<div class="mb-3">
+									<div class="mb-2 w-100">
+										<label class="" for="password">Password</label>
+									</div>
+									<input id="password" type="password" class="form-control" name="password" required>
+								    <div class="invalid-feedback">
+								    	Password is required
+							    	</div>
+								</div>
+
+								<div class="d-flex align-items-center">
+									<button type="submit" class="btn btn-primary ms-auto">
+										Login
+									</button>
+									
+								</div>
+							</form>
+						</div>
+						<div class="card-footer py-3 border-0">
+							<div class="text-center" id="dhaa">
+								Don't have an account? <a href="register.html" class="text-dark">Create One</a>
+							</div>
+						</div>
+					</div>
+					<div class="text-center mt-5 text-muted">
+						Copyright &copy; 2025 &mdash; myMovieSuper 
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	
+</body>
+</html>
