@@ -1,8 +1,8 @@
-#myMovie Super
+# 🎬myMovie Super🎬
 
 view the best movies from all over the world, add them to your favourite lists, and search them according to genres and languages!
 
-## features
+## 🍿features🍿
 - responsive design
 - searching of movies
 - recommendations based on current movies
